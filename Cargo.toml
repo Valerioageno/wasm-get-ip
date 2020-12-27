@@ -50,5 +50,8 @@ features = [
   'Document',
   'Element',
   'HtmlElement',
-  'Node'
+  'HtmlInputElement',
+  'HtmlTextAreaElement',
+  'Node',
+  'NodeList'
 ]
