@@ -10,18 +10,37 @@ pub struct IP {
     pub ip: String
 }
 
+
 #[wasm_bindgen]
-pub async fn fetch() ->Result<JsValue, JsValue> {
+pub async fn fetch(url: Option<String>) ->Result<JsValue, JsValue> {
+
+    utils::set_panic_hook();
 
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
 
-    let url = format!("https://api.ipify.org?format=json");
+    // let endpoint: &str = if url == "" {
+    //     "https://api.ipify.org?format=json"
+    // } else {
+    //     &url[..]
+    // };
 
-    let request = Request::new_with_str_and_init(&url, &opts)?;
+    let endpoint: &str = match &url {
+        Some(url) => &url[..],
+        None => "https://api.ipify.org?format=json"
+    };
+    
+    let request = Request::new_with_str_and_init(&endpoint, &opts)?;
 
     let window = web_sys::window().unwrap();
+    let document = window.document().expect("should have a document on window");
+    let body = document.body().expect("document should have a body");
+
+    let val = document.create_element("p")?;
+    val.set_inner_html("Hello from rust");
+
+    body.append_child(&val)?;
 
     let resp_value = JsFuture::from(window.fetch_with_request(&request)).await?;
 
