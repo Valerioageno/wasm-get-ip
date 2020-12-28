@@ -72,18 +72,11 @@ pub async fn fetch(url: Option<String>) ->Result<JsValue, JsValue> {
 
         //log(elem.node_name());
 
-        if  elem.node_name() == "INPUT" {
-            
-            elem.dyn_into::<web_sys::HtmlInputElement>().unwrap().set_value(&ip.ip);
-
-        }else if elem.node_name() == "TEXTAREA" {
-
-            elem.dyn_into::<web_sys::HtmlTextAreaElement>().unwrap().set_inner_html(&ip.ip);
-
-        }else {
-
-            elem.dyn_into::<web_sys::HtmlElement>().unwrap().set_inner_html(&ip.ip);
-        }
+        match &elem.node_name()[..] {
+            "INPUT" => elem.dyn_into::<web_sys::HtmlInputElement>().unwrap().set_value(&ip.ip),
+            "TEXTAREA" => elem.dyn_into::<web_sys::HtmlTextAreaElement>().unwrap().set_inner_html(&ip.ip),
+            _ => elem.dyn_into::<web_sys::HtmlElement>().unwrap().set_inner_html(&ip.ip)
+        };
         
     }
 
