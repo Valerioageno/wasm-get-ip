@@ -1,8 +1,11 @@
 [package]
-name = "get-ip"
+name = "wasm-get-ip"
 version = "0.1.0"
 authors = ["Valerio Ageno <valerioageno@yahoo.it>"]
 edition = "2018"
+description = "Fetch client IP address from frontend with superpower"
+repository = "https://github.com/Valerioageno/wasm-get-ip.git"
+license = "MIT"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
